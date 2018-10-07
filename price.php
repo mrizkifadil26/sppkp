@@ -39,39 +39,59 @@
           <!-- Price Content -->
           <div class="card mb-3">
             <div class="card-header">
-              <i class="fas fa-pencil-alt"></i>
-              Profil
+              <i class="fas fa-balance-scale"></i>
+              Verifikasi Harga
             </div>
             <div class="card-body">
-              <form action="" role="form">
-                <div class="form-group row">
-                  <label for="inputProfile" class="col-sm-3 col-form-label">Judul</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-lg" id="inputProfile">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputContent" class="col-form-label">Content</label>
-                  <textarea name="editorContent" class="form-control" id="editorContent" cols="30" rows="10"></textarea>
-                </div>
-                <div class="form-group row">
-                  <label for="inputCategory" class="col-sm-3 col-form-label">Category</label>
-                  <div class="col-sm-9">
-                    <select name="" id="inputCategory" class="form-control">
-                      <option value="category1">Category 1</option>
-                      <option value="category2">Category 2</option>
-                      <option value="category3">Category 3</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputUpload">Upload</label>
-                  <input type="file" class="form-control-file" id="inputUpload">
-                </div>
-                <div class="form-group">
-                  <input type="button" class="btn btn-primary" value="Submit">
-                </div>
-              </form>
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th rowspan="2">No</th>
+                      <th rowspan="2">Komoditi</th>
+                      <th colspan="3" class="text-center">Harga</th>
+                    </tr>
+                    <tr>
+                      <th>Surveyor 1</th>
+                      <th>Surveyor 2</th>
+                      <th>Admin</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>No</th>
+                      <th>Komoditi</th>
+                      <th>Surveyor 1</th>
+                      <th>Surveyor 2</th>
+                      <th>Admin</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Gula</td>
+                      <td>
+                        2,000 <br>
+                        <small><em>time: 09:17:15</em></small><br>
+                        <input type="radio" name="">
+                      </td>
+                      <td>
+                        2,000 <br>
+                        <small><em>time: 09:17:15</em></small><br>
+                        <input type="radio" name="">
+                      </td>
+                      <td>
+                        2,000 <br>
+                        <small><em>time: 09:17:15</em></small><br>
+                        <input type="radio" name="">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer">
+              <input type="button" class="btn btn-primary" value="Publikasikan">
             </div>
             <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
           </div>
@@ -80,7 +100,7 @@
         <!-- /.container-fluid -->
 
         <!-- Sticky Footer -->
-        
+        <?php include('_includes/footer.php'); ?>
 
       </div>
       <!-- /.content-wrapper -->
@@ -89,7 +109,7 @@
     <!-- /#wrapper -->
 
     <!-- Scroll to Top Button-->
-    <?php include('includes/scrolltop.php'); ?>
+    <?php include('_includes/scrolltop.php'); ?>
 
     <!-- Logout Modal-->
     <?php include('_includes/modal.php'); ?>

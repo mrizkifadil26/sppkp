@@ -7,30 +7,30 @@
       <span>Dashboard</span>
     </a>
   </li>
-  <!-- Profile -->
+  <!-- Price -->
   <li class="nav-item">
     <a class="nav-link" href="price.php">
-      <i class="fas fa-fw fa-pencil-alt"></i>
-      <span>Profil</span>
+      <i class="fas fa-fw fa-balance-scale"></i>
+      <span>Harga</span>
     </a>
   </li>
-  <!-- Information -->
+  <!-- Commodities -->
   <li class="nav-item">
     <a class="nav-link" href="commodities.php">
-      <i class="fas fa-fw fa-info-circle"></i>
-      <span>Informasi</span>
+      <i class="fas fa-fw fa-chart-line"></i>
+      <span>Komoditi</span>
     </a>
   </li>
   <!-- Pelaporan -->
   <li class="nav-item">
     <a class="nav-link" href="users.php">
-      <i class="fas fa-fw fa-file"></i>
-      <span>Pelaporan</span>
+      <i class="fas fa-fw fa-users"></i>
+      <span>Pengguna</span>
     </a>
   </li>
   <!-- Survey -->
   <li class="nav-item">
-    <a class="nav-link" href="survey.php">
+    <a class="nav-link" href="survei.php">
       <i class="fas fa-fw fa-file-alt"></i>
       <span>Survey</span>
     </a>
