@@ -2,35 +2,35 @@
 
 <ul class="sidebar navbar-nav">
   <li class="nav-item active">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="dashboard.php">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span>
     </a>
   </li>
   <!-- Profile -->
   <li class="nav-item">
-    <a class="nav-link" href="profile.html">
+    <a class="nav-link" href="price.php">
       <i class="fas fa-fw fa-pencil-alt"></i>
       <span>Profil</span>
     </a>
   </li>
   <!-- Information -->
   <li class="nav-item">
-    <a class="nav-link" href="information.html">
+    <a class="nav-link" href="commodities.php">
       <i class="fas fa-fw fa-info-circle"></i>
       <span>Informasi</span>
     </a>
   </li>
   <!-- Pelaporan -->
   <li class="nav-item">
-    <a class="nav-link" href="report.html">
+    <a class="nav-link" href="users.php">
       <i class="fas fa-fw fa-file"></i>
       <span>Pelaporan</span>
     </a>
   </li>
   <!-- Survey -->
   <li class="nav-item">
-    <a class="nav-link" href="survey.html">
+    <a class="nav-link" href="survey.php">
       <i class="fas fa-fw fa-file-alt"></i>
       <span>Survey</span>
     </a>

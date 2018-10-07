@@ -24,7 +24,7 @@
   {
     echo "<script>alert(" . $str . ")</script>";
   }
-
+  */
   function randomize()
   {
     $characters = 'abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM0123456789';
@@ -36,9 +36,9 @@
     }
     return $string;
   }
-
+  /*
   // echo randomize();
-
+  */
   // Function to Encode
   function encodeChar($string) {
     if ( $string[0] == '?') {
@@ -50,7 +50,7 @@
     $_SESSION['get_session'][$randomize] = $string;
     return '?' . $randomize;
   }
-
+  /*
   // echo encodeChar('rizkifadil26');
 
   // Function to Decode - Error
@@ -64,16 +64,17 @@
     print_r($result);
     $_GET[$result[0]] = $result[1];
   }
-
+  
+  */
   function travelTo($url) 
   {
     if ($url[0] == '?') {
-      $url = encode(str_replace('?', '', $url));
+      $url = encodeChar(str_replace('?', '', $url));
       // $url = encode($url);
       echo '<script>window.location = ' . $url . '</script>';
     }
   }
-
+  /*
   if (is_array($_SESSION['get_session']) && $_GET['inc'] != 'printize.php' && !strpos($_SERVER['PHP_SELF']. 'chatlog.php') !== false && !strpos($_SERVER['PHP_SELF'], 'postchat.php') !== false ) {
     foreach($_SESSION['get_session'] as $key => $value) {
       if ($key != $_SERVER['QUERY_STRING']) {
