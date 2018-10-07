@@ -26,7 +26,7 @@
   session_start();
 
   if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
-    header('Location: welcome.php');
+    header('Location: dashboard.php');
     exit;
   }
 
@@ -77,12 +77,12 @@
                 session_start();
 
                 // Store data session
-                $_SESSION['login'] == true;
-                $_SESSION['id'] == $user_id;
-                $_SESSION['role'] == $role;
+                $_SESSION['login'] = true;
+                $_SESSION['id'] = $user_id;
+                $_SESSION['role'] = $role;
 
                 // Redirect
-                header("Location: dashboard.html");
+                header("Location: dashboard.php");
               } else {
                 // Password not valid error
                 $password_err = "The password you entered was not valid.";
