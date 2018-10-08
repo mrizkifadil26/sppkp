@@ -1,10 +1,42 @@
 <?php
 
   session_start();
+  include('config.php');
 
   if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: login.php");
     exit;
+  }
+
+  if (!empty($_GET['delete'])) {
+    $query = "UPDATE `komoditi` 
+              SET `hapus` = 1
+              WHERE id = '" . $_GET['delete'] . "'";
+    $result = mysqli_query($connection, $query);
+
+    // Goto URL
+  } elseif (!empty($_GET['edit'])) {
+    if (!empty($_POST['editKomoditi']) && !empty($_POST['editSatuan'])) {
+      $query = "UPDATE `komoditi` 
+                SET `komoditi` = '" . $_POST['editKomoditi'] . "',
+                    `satuan` = '" . $_POST['editSatuan'] . "'
+                WHERE `id` = '" . $_GET['edit'] . "'";
+      $result = mysqli_query($connection, $query);
+
+      // Goto URL
+    } else {
+      $query = "SELECT `komoditi`, `satuan` FROM `komoditi` 
+                WHERE `id` = " . $_GET['edit'] . " AND `hapus` = 0";
+      $result = mysqli_query($connection, $query);
+
+      list($komoditi, $satuan) = mysqli_fetch_row($result);
+    }
+  } elseif (!empty($_POST['komoditi']) && !empty($_POST['satuan'])) {
+    $query = "INSERT INTO `komoditi`(`komoditi`, `satuan`)
+              VALUES ('" . $_POST['komoditi'] . "',
+                      '" . $_POST['satuan'] . "')";
+    $result = mysqli_query($connection, $query);
+    // Goto URL
   }
 
 ?>
@@ -43,21 +75,21 @@
               Komoditi
             </div>
             <div class="card-body">
-              <form action="" role="form">
+              <form action="" role="form" method="post">
                 <div class="form-group row">
                   <label for="inputKomoditi" class="col-sm-3 col-form-label">Komoditi</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="inputKomoditi">
+                    <input type="text" name="komoditi" class="form-control" id="inputKomoditi">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="inputSatuan" class="col-sm-3 col-form-label">Satuan</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="inputSatuan">
+                    <input type="text" name="satuan" class="form-control" id="inputSatuan">
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="button" class="btn btn-primary" value="Simpan">
+                  <input type="submit" class="btn btn-primary" value="Simpan">
                 </div>
               </form>
             </div>
@@ -90,12 +122,25 @@
                     </tr>
                   </tfoot>
                   <tbody>
+                  <?php
+                    $i = 0;
+                    $query = "SELECT `id`, `komoditi`, `satuan`
+                              FROM `komoditi` WHERE `hapus` = 0
+                              ORDER BY `id`";
+                    $result = mysqli_query($connection, $query);
+
+                    while(list($id, $komoditi, $satuan) = mysqli_fetch_row($result)) :
+                  ?>
                     <tr>
-                      <td>1</td>
-                      <td>Beras Premieum</td>
-                      <td>kg</td>
-                      <td><a href="#">[Edit]</a> <a href="http://">[Delete]</a></td>
+                      <td><?= ++$i; ?></td>
+                      <td><?= $komoditi; ?></td>
+                      <td><?= $satuan; ?></td>
+                      <td>
+                        <a class="btn btn-success" href="?edit=<?php echo $userid; ?>" data-toggle="modal" data-target="#editModal">Edit</a> 
+                        <a class="btn btn-danger" href="?delete=<?= $userid; ?>" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                      </td>
                     </tr>
+                  <?php endwhile; ?>
                   </tbody>
                 </table>
               </div>  

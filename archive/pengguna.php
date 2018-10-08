@@ -1,7 +1,7 @@
 <?php
 
 	session_start();
-	include('config.php');
+	include('../config.php');
 
 	if(!empty($_GET['hapus'])) {
 		$query = "DELETE FROM pengguna WHERE id = '".$_GET['hapus']."'";
@@ -78,8 +78,8 @@
 			<td nowrap="nowrap"><?= $id; ?></td>
 			<td nowrap="nowrap"><?= $role; ?></td>
 			<td nowrap="nowrap" align="left">
-				[<a href="<? echo ("?inc=".$_GET['inc']."&edit=".$id); ?>">edit</a>] 
-				[<a href="<? echo encode("?inc=".$_GET['inc']."&hapus=".$id); ?>" onClick="return confirm('Anda yakin akan menghapus data?')">hapus</a>]
+				[<a href="<?= encode("?inc=".$_GET['inc']."&edit=".$id); ?>">edit</a>] 
+				[<a href="<?= encode("?inc=".$_GET['inc']."&hapus=".$id); ?>" onClick="return confirm('Anda yakin akan menghapus data?')">hapus</a>]
 			</td>
 		</tr>
 		<?php

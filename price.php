@@ -1,10 +1,41 @@
 <?php
 
   session_start();
+  include('config.php');
 
   if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: login.php");
     exit;
+  }
+
+  if(isset($_POST['save'])) {
+    $query = "DELETE ";
+
+    foreach($_POST['harga'] as $key => $value) {
+      $arr_query[] = "('20180930', '" . $key . "', '" . $value . "')";
+    }
+
+    if (is_array($arr_query)) {
+      $query = "REPLACE INTO `harga`(`tanggal`, `id_komoditi`, `harga`)
+                VALUES " . implode(",", $arr_query);
+      $result = mysqli_query($connection, $query);
+    }
+
+    // Goto URL
+  }
+
+  $query = "SELECT `id_komoditi`, `surveyor`, `harga`, `timestamp` 
+            FROM `survey` WHERE `tanggal` = '20180930'";
+	$result = mysqli_query($connection, $query);
+	
+	while(list($id_komoditi, $surveyor, $harga, $timestamp) = mysqli_fetch_row($result)) {
+		$arr_surveyor[$surveyor] = $surveyor;
+		$arr_harga[$id_komoditi][$surveyor] = $harga;
+		$arr_timestamp[$id_komoditi][$surveyor] = $timestamp;
+
+		// print_r($arr_surveyor);
+		// print_r($arr_harga);
+		// print_r($arr_timestamp);
   }
 
 ?>
@@ -43,56 +74,57 @@
               Verifikasi Harga
             </div>
             <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th rowspan="2">No</th>
-                      <th rowspan="2">Komoditi</th>
-                      <th colspan="3" class="text-center">Harga</th>
-                    </tr>
-                    <tr>
-                      <th>Surveyor 1</th>
-                      <th>Surveyor 2</th>
-                      <th>Admin</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>No</th>
-                      <th>Komoditi</th>
-                      <th>Surveyor 1</th>
-                      <th>Surveyor 2</th>
-                      <th>Admin</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Gula</td>
-                      <td>
-                        2,000 <br>
-                        <small><em>time: 09:17:15</em></small><br>
-                        <input type="radio" name="">
-                      </td>
-                      <td>
-                        2,000 <br>
-                        <small><em>time: 09:17:15</em></small><br>
-                        <input type="radio" name="">
-                      </td>
-                      <td>
-                        2,000 <br>
-                        <small><em>time: 09:17:15</em></small><br>
-                        <input type="radio" name="">
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <?php if (!is_array($arr_surveyor)) : ?>
+                <center>Data belum tersedia...</center>
+              <?php else: ?>
+              <form action="" method="post">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th rowspan="2">No</th>
+                        <th rowspan="2">Komoditi</th>
+                        <th colspan="<?= count($arr_surveyor); ?>" class="text-center">Harga</th>
+                      </tr>
+                      <tr>
+                        <?php foreach($arr_surveyor as $value): ?>
+                        <th><?= $value; ?></th>
+                        <?php endforeach; ?>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+
+                        $i = 0;
+                        $query = "SELECT DISTINCT `id_komoditi`, `komoditi` FROM `survey`
+                                  LEFT JOIN `komoditi` ON `komoditi`.`id` = `survey`.`id_komoditi`
+                                  WHERE `tanggal` = '20180930'";
+                        $result = mysqli_query($connection, $query);
+
+                        while(list($id_komoditi, $komoditi) = mysqli_fetch_row($result)) :
+
+                      ?>
+                      <tr>
+                        <td><?= ++$i; ?></td>
+                        <td><?= $komoditi; ?></td>
+                        <?php foreach($arr_surveyor as $value) : ?>
+                        <td>
+                          <?= number_format($arr_harga[$id_komoditi][$value], 0); ?> <br>
+                          <small><em>time: <?= substr($arr_timestamp[$id_komoditi][$value], 12, 8); ?></em></small><br>
+                          <input type="radio" name="harga[<?= $id_komoditi; ?>]" value="<?= $arr_harga[$id_komoditi][$value]; ?>">
+                        </td>
+                        <?php endforeach; ?>
+                      </tr>
+                      <?php endwhile; ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-            <div class="card-footer">
-              <input type="button" class="btn btn-primary" value="Publikasikan">
-            </div>
+              <div class="card-footer">
+                <input name="save" type="submit" class="btn btn-primary" value="Publikasikan">
+              </div>
+            </form>
+            <?php endif;?>
             <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
           </div>
 

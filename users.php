@@ -1,10 +1,42 @@
 <?php
 
   session_start();
+  include('config.php');
 
   if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: login.php");
     exit;
+  }
+
+  if (!empty($_GET['delete'])) {
+    $query = "DELETE FROM `pengguna` WHERE id = '" . $_GET['delete'] . "'";
+    $result = mysqli_query($connection, $query);
+
+    // Goto URL
+  } elseif (!empty($_GET['edit'])) {
+    if (!empty($_POST['editUsername']) && !empty($_POST['editRole'])) {
+      $query = "UPDATE `pengguna` 
+                SET `username` = '" . $_POST['editUsername'] . "',
+                    `password` = '" . $_POST['editNewPassword'] . "',
+                    `role` = '" . $_POST['editRole'] . "'
+                WHERE `id` = '" . $_GET['edit'] . "'";
+      $result = mysqli_query($connection, $query);
+
+      // Goto URL
+    } else {
+      $query = "SELECT * FROM `pengguna` 
+                WHERE `id` = " . $_GET['edit'] . "";
+      $result = mysqli_query($connection, $query);
+
+      list($id, $username, $password, $role) = mysqli_fetch_row($result);
+    }
+  } elseif (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['role'])) {
+    $query = "INSERT INTO `pengguna`(`username`, `password`, `role`)
+              VALUES ('" . $_POST['username'] . "',
+                      '" . $_POST['password'] . "',
+                      '" . $_POST['role'] . "')";
+    $result = mysqli_query($connection, $query);
+    // Goto URL
   }
 
 ?>
@@ -43,31 +75,31 @@
               Pengguna
             </div>
             <div class="card-body">
-              <form action="" role="form">
+              <form action="" role="form" method="post">
                 <div class="form-group row">
                   <label for="inputUsername" class="col-sm-3 col-form-label">Username</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="inputUsername">
+                    <input type="text" class="form-control" id="inputUsername" name="username">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="inputPassword" class="col-sm-3 col-form-label">Password</label>
                   <div class="col-sm-9">
-                    <input type="password" class="form-control" id="inputPassword">
+                    <input type="password" class="form-control" id="inputPassword" name="password">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="inputRole" class="col-sm-3 col-form-label">Role</label>
                   <div class="col-sm-9">
-                    <select name="" id="inputRole" class="form-control">
-                      <option value="">Admin</option>
-                      <option value="">Operator</option>
-                      <option value="">Surveyor</option>
+                    <select name="role" id="inputRole" class="form-control">
+                      <option value="admin">Admin</option>
+                      <option value="operator">Operator</option>
+                      <option value="surveyor">Surveyor</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="button" class="btn btn-primary" value="Simpan">
+                  <input type="submit" class="btn btn-primary" name="" value="Simpan">
                 </div>
               </form>
             </div>
@@ -100,12 +132,22 @@
                     </tr>
                   </tfoot>
                   <tbody>
+                  <?php 
+                    $i = 0;
+                    $query = "SELECT * FROM `pengguna` ORDER BY `id`";
+                    $result = mysqli_query($connection, $query);
+
+                    while(list($userid, $username, $password, $role) = mysqli_fetch_row($result)) :
+                  ?>
                     <tr>
-                      <td>1</td>
-                      <td>Admin</td>
-                      <td>Admin</td>
-                      <td><a href="#">[Edit]</a> <a href="http://">[Delete]</a></td>
+                      <td><?= ++$i; ?></td>
+                      <td><?= $username; ?></td>
+                      <td><?= $role; ?></td>
+                      <td><a class="btn btn-success" href="?edit=<?php echo $userid; ?>" data-toggle="modal" data-target="#editModal">Edit</a> <a class="btn btn-danger" href="delete=<?= $userid; ?>" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
                     </tr>
+                    <?php 
+                      endwhile;
+                    ?>
                   </tbody>
                 </table>
               </div>  

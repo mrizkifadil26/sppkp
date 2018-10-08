@@ -32,7 +32,7 @@
 
   require_once('config.php');
 
-  $user_id = $password = '';
+  $username = $password = '';
   $username_err = $password_err = '';
 
   // Processing data
@@ -40,7 +40,7 @@
     if (empty(trim($_POST['username']))) {
       $username_err = "Please enter username.";
     } else {
-      $user_id = trim($_POST['username']);
+      $username = trim($_POST['username']);
     }
 
     // Empty Password checking
@@ -52,15 +52,15 @@
 
     // Validate credentials
     if (empty($username_err) && empty($password_err)) {
-      // Prepare SELECT statemen
-      $query = "SELECT `id`, `pass`, `role` FROM `pengguna` WHERE `id` = ?";
+      // Prepare SELECT statement
+      $query = "SELECT * FROM `pengguna` WHERE `username` = ?";
 
       if ($stmt = mysqli_prepare($connection, $query)) {
         // Bind variables
         mysqli_stmt_bind_param($stmt, "s", $param_username);
 
         // Set username parameter
-        $param_username = $user_id;
+        $param_username = $username;
 
         // Attempt to execute
         if (mysqli_stmt_execute($stmt)) {
@@ -70,7 +70,7 @@
           // Checking existence
           if (mysqli_stmt_num_rows($stmt) == 1) {
             // Bind result variables
-            mysqli_stmt_bind_result($stmt, $user_id, $password, $role);
+            mysqli_stmt_bind_result($stmt, $user_id, $username, $password, $role);
 
             if (mysqli_stmt_fetch($stmt)) {
               if ($password === '123') {
@@ -78,7 +78,7 @@
 
                 // Store data session
                 $_SESSION['login'] = true;
-                $_SESSION['id'] = $user_id;
+                $_SESSION['username'] = $username;
                 $_SESSION['role'] = $role;
 
                 // Redirect
