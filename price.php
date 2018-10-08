@@ -144,7 +144,7 @@
     <?php include('_includes/scrolltop.php'); ?>
 
     <!-- Logout Modal-->
-    <?php include('_includes/modal.php'); ?>
+    <?php include('_includes/logout-modal.php'); ?>
 
     <!-- JS Libraries -->
     <?php include('_includes/jslib.php'); ?>

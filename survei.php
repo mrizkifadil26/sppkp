@@ -26,7 +26,7 @@
         // Real-time passing data
         // $query = "REPLACE INTO survey (tanggal, id_komoditi, surveyor, harga) VALUES ('".date("Ymd")."', '".$k."','".$_SESSION['sesi_username']."', '".$v."')";
         $query = "REPLACE INTO `survey` (`tanggal`, `id_komoditi`, `surveyor`, `harga`) 
-                  VALUES ('20180930', '".$key."','".$_SESSION['username']."', '".$value."')";
+                  VALUES ('20180930', '" . $key . "','" . $_SESSION['username'] . "', '" . $value . "')";
         $result = mysqli_query($connection, $query);
       }
     }
@@ -79,7 +79,7 @@
               Survei
             </div>
             <div class="card-body">
-              <form action="" role="form">
+              <form action="" role="form" method="post">
                 <div class="form-group row">
                   <label for="inputKomoditi" class="col-sm-3 col-form-label">Komoditi</label>
                   <div class="col-sm-9">
@@ -111,15 +111,13 @@
             $resultShow = mysqli_query($connection, $queryShow);
 
           ?>
-          
-
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-file-alt"></i>
               Data Survei
             </div>
             <div class="card-body">
-            <form>
+            <form role="form" method="post">
             <?php if (mysqli_num_rows($resultShow) <= 0) : ?>
               <div class="text-center">Prices has been published!</div>
             <?php else: ?>
@@ -132,7 +130,7 @@
                 <div class="form-group col-md-6">
                   <label for="inputHarga">Harga</label>
                   <div class="input-group">
-                    <input name="hZarga[<?= $id; ?>]" type="text" class="form-control" id="inputHarga" aria-describedby="unit-addon" value="<?= $arr_harga[$id]; ?>">
+                    <input name="harga[<?= $id; ?>]" type="text" class="form-control" id="inputHarga" aria-describedby="unit-addon">
                     <div class="input-group-append">
                       <span class="input-group-text" id="unit-addon">/ <?= $satuan; ?></span>
                     </div>
@@ -140,7 +138,7 @@
                 </div>
               </div>
             <?php endwhile; ?>
-              <input type="submit" class="btn btn-primary" value="Simpan" />
+              <input type="submit" name="save" class="btn btn-primary" value="Simpan" />
             <?php endif; ?>
             </form>
             </div>
@@ -148,48 +146,6 @@
           </div>
 
           <!-- Commodities Table -->
-          <!-- DataTables Example -->
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-file-alt"></i>
-              Data Survei</div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Komoditi</th>
-                      <th>Harga</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Komoditi</th>
-                      <th>Harga</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <label for="dataKomoditi" class="col-form-label">Gula</label>
-                      </td>
-                      <td>
-                        <div class="input-group">
-                          <input type="text" class="form-control" id="inputSatuan" aria-describedby="unit-addon">
-                          <div class="input-group-append">
-                            <span class="input-group-text" id="unit-addon">kg</span>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>  
-            </div>
-            <div class="card-footer">
-              <input type="button" class="btn btn-primary" value="Simpan">
-            </div>
-          </div>
 
         </div>
         <!-- /.container-fluid -->
@@ -207,7 +163,7 @@
     <?php include('_includes/scrolltop.php'); ?>
 
     <!-- Logout Modal-->
-    <?php include('_includes/modal.php'); ?>
+    <?php include('_includes/logout-modal.php'); ?>
 
     <!-- JS Libraries -->
     <?php include('_includes/jslib.php'); ?>

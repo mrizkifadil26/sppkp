@@ -143,11 +143,16 @@
                       <td><?= ++$i; ?></td>
                       <td><?= $username; ?></td>
                       <td><?= $role; ?></td>
-                      <td><a class="btn btn-success" href="?edit=<?php echo $userid; ?>" data-toggle="modal" data-target="#editModal">Edit</a> <a class="btn btn-danger" href="delete=<?= $userid; ?>" data-toggle="modal" data-target="#deleteModal">Delete</a></td>
+                      <td>
+                        <a class="btn btn-success" href="?edit=<?= $userid; ?>" data-toggle="modal" data-target="#editModal" data-id="<?= $userid; ?>">Edit</a> 
+                        <a class="btn btn-danger" href="?delete=<?= $userid; ?>" data-toggle="modal" data-target="#deleteModal" data-id="<?= $userid; ?>">Delete</a>
+                      </td>
                     </tr>
-                    <?php 
-                      endwhile;
-                    ?>
+                    <!-- Logout Modal -->
+                    <?php include('_includes/modal.php'); ?>
+                  <?php 
+                    endwhile;
+                  ?>
                   </tbody>
                 </table>
               </div>  
@@ -169,8 +174,8 @@
     <!-- Scroll to Top Button-->
     <?php include('_includes/scrolltop.php'); ?>
 
-    <!-- Logout Modal-->
-    <?php include('_includes/modal.php'); ?>
+    <!-- Logout Modal -->
+    <?php include('_includes/logout-modal.php'); ?>
 
     <!-- JS Libraries -->
     <?php include('_includes/jslib.php'); ?>

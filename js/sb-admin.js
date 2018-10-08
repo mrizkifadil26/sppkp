@@ -37,4 +37,18 @@
     event.preventDefault();
   });
 
+  $('#editModal').on('show.bs.modal', function(event) {
+    var userid = $(event.relatedTarget).data('id');
+    $(event.currentTarget).find('input[name="user_id"]').val(userid);
+
+    console.log(userid);
+  });
+
+  $('#deleteModal').on('show.bs.modal', function(event) {
+    var userid = $(event.relatedTarget).data('id');
+    $(event.currentTarget).find('input[name="user_id"]').val(userid);
+
+    console.log(userid);
+  });
+
 })(jQuery); // End of use strict
