@@ -7,8 +7,6 @@
     exit;
   }
 
-  echo $_SESSION['username'];
-
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +37,7 @@
           <?php include('_includes/breadcrumb.php'); ?>
 
           <!-- Icon Cards-->
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-xl-3 col-sm-6 mb-3">
               <div class="card text-white bg-primary o-hidden h-100">
                 <div class="card-body">
@@ -104,7 +102,7 @@
                 </a>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Area Chart Example-->
           <div class="card mb-3">

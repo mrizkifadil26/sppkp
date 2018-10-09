@@ -13,30 +13,34 @@
     $result = mysqli_query($connection, $query);
 
     // Goto URL
+    header("Location: users.php");
   } elseif (!empty($_GET['edit'])) {
-    if (!empty($_POST['editUsername']) && !empty($_POST['editRole'])) {
+    if (!empty($_POST['editUsername']) || !empty($_POST['editRole']) ) {
       $query = "UPDATE `pengguna` 
-                SET `username` = '" . $_POST['editUsername'] . "',
-                    `password` = '" . $_POST['editNewPassword'] . "',
-                    `role` = '" . $_POST['editRole'] . "'
-                WHERE `id` = '" . $_GET['edit'] . "'";
+            SET `username` = '" . $_POST['editUsername'] . "',
+                `role` = '" . $_POST['editRole'] . "'
+            WHERE `pengguna`.`id` = " . $_GET['edit'] . "";
       $result = mysqli_query($connection, $query);
 
       // Goto URL
+      header("Location: users.php");
     } else {
-      $query = "SELECT * FROM `pengguna` 
-                WHERE `id` = " . $_GET['edit'] . "";
-      $result = mysqli_query($connection, $query);
+      $queryEdit = "SELECT `id`, `username`, `role` FROM `pengguna` 
+                    WHERE `id` = " . $userid . "";
+      $resultEdit = mysqli_query($connection, $queryEdit);
 
-      list($id, $username, $password, $role) = mysqli_fetch_row($result);
+      list($editId, $editUsername, $editRole) = mysqli_fetch_row($resultEdit);
     }
-  } elseif (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['role'])) {
+  }
+  
+  elseif (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['role'])) {
     $query = "INSERT INTO `pengguna`(`username`, `password`, `role`)
               VALUES ('" . $_POST['username'] . "',
                       '" . $_POST['password'] . "',
                       '" . $_POST['role'] . "')";
     $result = mysqli_query($connection, $query);
     // Goto URL
+    header("Location: users.php");
   }
 
 ?>
@@ -144,12 +148,14 @@
                       <td><?= $username; ?></td>
                       <td><?= $role; ?></td>
                       <td>
-                        <a class="btn btn-success" href="?edit=<?= $userid; ?>" data-toggle="modal" data-target="#editModal" data-id="<?= $userid; ?>">Edit</a> 
-                        <a class="btn btn-danger" href="?delete=<?= $userid; ?>" data-toggle="modal" data-target="#deleteModal" data-id="<?= $userid; ?>">Delete</a>
+                        <!-- <a class="btn btn-success" href="?edit=">Edit</a>  -->
+                        <!-- <a class="btn btn-danger" href="?delete=" data-toggle="modal" data-target="#deleteModal" data-id="">Delete</a> -->
+                        <a id="editButton" class="btn btn-success" data-toggle="modal" href="#editModal<?= $userid; ?>">Edit</a>
+                        <a id="deleteButton" class="btn btn-danger" data-toggle="modal" href="#deleteModal<?= $userid; ?>">Delete</a>
+                         <!-- Modal -->
+                        <?php include('_includes/users-modal.php'); ?>
                       </td>
                     </tr>
-                    <!-- Logout Modal -->
-                    <?php include('_includes/modal.php'); ?>
                   <?php 
                     endwhile;
                   ?>

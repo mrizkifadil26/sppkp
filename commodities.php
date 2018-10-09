@@ -24,6 +24,7 @@
       $result = mysqli_query($connection, $query);
 
       // Goto URL
+      header("Location: commodities.php");
     } else {
       $query = "SELECT `komoditi`, `satuan` FROM `komoditi` 
                 WHERE `id` = " . $_GET['edit'] . " AND `hapus` = 0";
@@ -136,10 +137,11 @@
                       <td><?= $komoditi; ?></td>
                       <td><?= $satuan; ?></td>
                       <td>
-                        <a class="btn btn-success" href="?edit=<?php echo $userid; ?>" data-toggle="modal" data-target="#editModal">Edit</a> 
-                        <a class="btn btn-danger" href="?delete=<?= $userid; ?>" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#editModal<?= $id; ?>">Edit</button> 
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?= $id; ?>">Delete</button>
                       </td>
                     </tr>
+                  <?php include('_includes/commodities-modal.php'); ?>
                   <?php endwhile; ?>
                   </tbody>
                 </table>
